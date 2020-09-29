@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -eu
+
+npm run build
+
+npm run build-watch &
+npm run test-watch &
+wait

@@ -1,0 +1,7 @@
+.editorconfig
+.vscode
+.gitattributes
+.gitignore
+.tsconfig
+dev
+src/*test*

@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "esModuleInterop": true,
+        "jsx": "react",
+        "lib": [
+            "ES2015"
+        ],
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+        "noEmitOnError": true,
+        "noImplicitAny": true,
+        "preserveWatchOutput": true,
+        "sourceMap": true,
+        "strict": true,
+        "target": "ES2015"
+    }
+}
