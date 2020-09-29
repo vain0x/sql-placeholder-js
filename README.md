@@ -1,13 +1,21 @@
 # SQL Placeholder
 
-Convert named placeholder to positional ones.
+[![NPM](https://nodei.co/npm/sql-placeholder-js.png?mini=true)](https://npmjs.org/package/sql-placeholder-js)
+
+Convert SQL placeholders from named ones (`:n`) to positional ones (`$i` in postgres or `?` in MySQL). Array expansion and exhaustivity checking are also supported.
+
+## Install
+
+```sh
+npm install sql-placeholder-js
+```
 
 ## What?
 
-From a SQL using named placeholders (`:placeholder`):
+From a SQL using named placeholders (`:n`):
 
 ```sql
-select user_id, username
+select user_id, name
 from users
 where user_id in :user_ids
     and birthdate = :birthdate
@@ -22,13 +30,13 @@ with an object of values:
     }
 ```
 
-To a sql using positional placeholders (`?` in MySQL or `$i` in Postgres):
+To a sql using positional placeholders (`$i`):
 
 ```sql
-select user_id, username
+select user_id, name
 from users
-where user_id in (?, ?, ?)
-    and birthdate = ?
+where user_id in ($1, $2, $3)
+    and birthdate = $4
 ```
 
 with an array of values:
@@ -40,19 +48,19 @@ with an array of values:
 ## Usage
 
 ```ts
-import   { MySqlPlaceholderResolver } from "sql-placeholder-js"
-// Or { PostgresPlaceholderResolver }
+import{ PostgresPlaceholderResolver } from "sql-placeholder-js"
+// Or    { MySqlPlaceholderResolver }
 
-const sql = "select ..."
+const sql = "select name from users where user_id = :user_id"
 const params = { user_id: 2 }
 
-const [statement, values] = MySqlPlaceholderResolver.resolve(sql, params))
-//                    Or PostgresPlaceholderResolver
+const [statement, values] = PostgresPlaceholderResolver.resolve(sql, params))
+//                          Or MySqlPlaceholderResolver
 ```
 
 ## Checking
 
-Use of *undefined* placeholder is an error. And definition of unused placeholder is also an error.
+Use of undefined placeholder is an error.
 
 ```ts
 // ✗ Exception thrown for use of undefined placeholder `:user_id`
@@ -63,6 +71,8 @@ MySqlPlaceholderResolver.resolve(
     }))
 ```
 
+Definition of unused placeholder is also an error.
+
 ```ts
 // ✗ Exception thrown for definition of unused placeholder `:user_id`
 MySqlPlaceholderResolver.resolve(
@@ -71,3 +81,7 @@ MySqlPlaceholderResolver.resolve(
         user_id: 42,
     }))
 ```
+
+## Notes
+
+- SQL statement is not tokenized but placeholders are just replaced with simple regexp. Comments or quotes including `:` doesn't work correctly.
