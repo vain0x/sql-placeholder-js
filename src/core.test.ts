@@ -22,6 +22,11 @@ describe("PLACEHOLDER_REGEXP", () => {
     assertEq(m, null)
   })
 
+  it("doesn't match number", () => {
+    const m = r().exec("00:01:00")
+    assertEq(m, null)
+  })
+
   it("doesn't match non-ascii letter", () => {
     const m = r().exec(":ゆ")
     assertEq(m, null)

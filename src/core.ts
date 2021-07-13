@@ -1,7 +1,7 @@
 /**
  * Pattern of named placeholder.
  */
-export const PLACEHOLDER_REGEXP: RegExp = /:(\w+)/g
+export const PLACEHOLDER_REGEXP: RegExp = /:(?![0-9])(\w+)/g
 
 /**
  * Since empty list `()` is illegal in SQL, use this sub-query that returns zero rows instead.
